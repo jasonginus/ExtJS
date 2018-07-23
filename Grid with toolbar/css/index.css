@@ -1,0 +1,7 @@
+.x-grid3-cell.user-online {
+    background-color: #9fc;
+}
+
+.x-grid3-cell.user-offline {
+    background-color: #ffc;
+}

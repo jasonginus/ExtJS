@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/extjs/6.2.0/classic/theme-classic/resources/theme-classic-all.css" rel="stylesheet"
+    />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/extjs/6.2.0/ext-all.js"></script>
+
+    <!-- <link href="css/index.css" /> -->
+    <!-- <script src="scripts/app.js"></script> -->
+    <script>
+        Ext.onReady(function () {
+            Ext.define('Ext.ux.DeleteButton', {
+                extend: 'Ext.button.Button',
+                alias: 'widget.delbuttons',
+                text: 'Remove Selected Record',
+                handler: function () {
+                    var grid = this.up('grid');
+                    if (grid) {
+                        var sm = grid.getSelectionModel();
+                        var rs = sm.getSelection();
+                        if (!rs.length) {
+                            Ext.Msg.alert('Info', 'No Records Selected');
+                            return;
+                        }
+                        Ext.Msg.confirm('Remove Record', 'Are you sure?', function (button) {
+                            if (button == 'yes') {
+                                grid.store.remove(rs[0]);
+                            }
+                        });
+                    }
+                }
+            });
+
+            Ext.create('Ext.grid.Panel', {
+                // title: 'Simpsons',
+                width: 500,
+                tbar: [
+                    {
+                        xtype: 'delbuttons'
+                    },{
+                        xtype: 'delbuttons'
+                    }
+                ],
+                store: {
+                    fields: ['name', 'email', 'phone'],
+                    data: [{
+                            'name': 'Lisa',
+                            "email": "lisa@simpsons.com",
+                            "phone": "555-111-1224"
+                        },
+                        {
+                            'name': 'Bart',
+                            "email": "bart@simpsons.com",
+                            "phone": "555-222-1234"
+                        },
+                        {
+                            'name': 'Homer',
+                            "email": "home@simpsons.com",
+                            "phone": "555-222-1244"
+                        }
+                    ]
+                },
+                columns: [{
+                        header: 'Name',
+                        dataIndex: 'name'
+                    },
+                    {
+                        header: 'Email',
+                        dataIndex: 'email',
+                        flex: 1
+                    },
+                    {
+                        header: 'Phone',
+                        dataIndex: 'phone'
+                    }
+                ],
+                renderTo: Ext.getBody()
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="grid-example"></div>
+</body>
+
+</html>
